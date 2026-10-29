@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nothing — Sound Without Limits</title>
+  <meta name="description" content="An interactive 3D product showcase for Nothing and CMF earbuds and headphones. Explore the lineup, switch colourways and configure your sound." />
+  <meta name="theme-color" content="#07070a" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%23ff4a1c'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%2307070a'/%3E%3C/svg%3E" />
+  <meta property="og:title" content="Nothing — Sound Without Limits" />
+  <meta property="og:description" content="An interactive 3D showcase of Nothing and CMF audio." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="Ear3-black.webp" />
+
+  <link rel="preload" as="image" href="Ear3-black.webp" />
+  <script>
+    (function () {
+      try {
+        // Motion is on by default. It only turns off when explicitly chosen.
+        if (localStorage.getItem("nothing.motion") === "off") {
+          document.documentElement.classList.add("reduce-motion");
+        }
+      } catch (e) {}
+      try {
+        var y = sessionStorage.getItem("nothing.scroll");
+        if (y !== null) {
+          history.scrollRestoration = "manual";
+          window.addEventListener("load", function () {
+            setTimeout(function () {
+              window.scrollTo(0, parseInt(y, 10) || 0);
+              try {
+                sessionStorage.removeItem("nothing.scroll");
+              } catch (e) {}
+            }, 40);
+          });
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Doto:wght@400;600;800&family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css?v=3" />
+  <noscript>
+    <style>
+      .loader { display: none !important; }
+      body.is-loading { overflow: auto !important; }
+      [data-reveal] { opacity: 1 !important; transform: none !important; }
+      .hero__title .line > span { transform: none !important; }
+    </style>
+  </noscript>
+</head>
+<body class="is-loading">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- Ambient layers -->
+  <div class="grain" aria-hidden="true"></div>
+  <div class="pointer-glow" id="pointerGlow" aria-hidden="true"></div>
+  <div class="scroll-progress" aria-hidden="true"><span id="scrollProgress"></span></div>
+
+  <!-- Loader -->
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="loader__inner">
+      <div class="brand-mark brand-mark--lg" aria-hidden="true">
+        <span></span><span></span><span></span><span></span>
+      </div>
+      <p class="loader__word">NOTHING</p>
+      <div class="loader__bar"><span id="loaderBar"></span></div>
+      <div class="loader__meta">
+        <span>Preparing the experience</span>
+        <span class="mono" id="loaderPct">0%</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+      <a class="brand" href="#top" aria-label="Nothing, back to top">
+        <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
+        <span class="brand__text">NOTHING<span class="brand__reg">®</span></span>
+      </a>
+
+      <nav class="nav__links" aria-label="Primary">
+        <a href="#lineup">Earbuds</a>
+        <a href="#lineup">Headphones</a>
+        <a href="#tech">Technology</a>
+        <a href="#explore">Configure</a>
+      </nav>
+
+      <div class="nav__actions">
+        <button class="bag-btn" id="bagBtn" type="button" aria-haspopup="dialog" aria-controls="bagDrawer">
+          <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+          <span class="bag-btn__label">Bag</span>
+          <span class="bag-btn__count" id="bagCount">0</span>
+        </button>
+        <button class="burger" id="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+          <span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile menu -->
+  <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+    <nav aria-label="Mobile">
+      <a href="#lineup"><span class="mono">01</span> Earbuds</a>
+      <a href="#lineup"><span class="mono">02</span> Headphones</a>
+      <a href="#tech"><span class="mono">03</span> Technology</a>
+      <a href="#explore"><span class="mono">04</span> Configure</a>
+      <a href="#join"><span class="mono">05</span> Join the list</a>
+    </nav>
+    <p class="mobile-menu__note">Sound, without limits.<br />An interactive concept showcase.</p>
+  </div>
+
+  <main id="main">
+    <!-- ================= HERO ================= -->
+    <section class="hero" id="top">
+      <div class="hero__bg" aria-hidden="true">
+        <div class="hero__grid"></div>
+        <div class="hero__aurora hero__aurora--a"></div>
+        <div class="hero__aurora hero__aurora--b"></div>
+        <div class="hero__vignette"></div>
+      </div>
+
+      <div class="hero__inner">
+        <div class="hero__copy">
+          <p class="eyebrow" data-reveal>
+            <span class="pulse-dot" aria-hidden="true"></span>
+            New release — Nothing Ear&nbsp;(3)
+          </p>
+
+          <h1 class="hero__title">
+            <span class="line"><span>Sound</span></span>
+            <span class="line"><span>Without</span></span>
+            <span class="line"><span class="outline">Limits</span></span>
+          </h1>
+
+          <p class="hero__lede" data-reveal style="--d:.9s">
+            Transparent design. Invisible noise. The third generation of Ear pairs a
+            12&nbsp;mm ceramic driver with adaptive ANC that reads the room 48,000 times a second.
+          </p>
+
+          <div class="hero__cta" data-reveal style="--d:1.05s">
+            <a class="btn btn--primary" href="#lineup">
+              Explore the collection
+              <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+            <a class="btn btn--ghost" href="#tech">See the tech</a>
+          </div>
+
+          <dl class="hero__specs" data-reveal style="--d:1.2s">
+            <div><dt>Noise cancelled</dt><dd>45&nbsp;dB</dd></div>
+            <div><dt>Playback</dt><dd>40&nbsp;h</dd></div>
+            <div><dt>Wireless</dt><dd>LDAC</dd></div>
+          </dl>
+        </div>
+
+        <div class="hero__visual" aria-hidden="true">
+          <div class="hero__orbit hero__orbit--a"></div>
+          <div class="hero__orbit hero__orbit--b"></div>
+
+          <svg class="ring-text ring-text--hero" viewBox="0 0 400 400">
+            <defs>
+              <path id="heroRingPath" d="M200,200 m-172,0 a172,172 0 1,1 344,0 a172,172 0 1,1 -344,0" />
+            </defs>
+            <text>
+              <textPath href="#heroRingPath" startOffset="0%">NOTHING · SOUND WITHOUT LIMITS · NOTHING · SOUND WITHOUT LIMITS ·</textPath>
+            </text>
+          </svg>
+
+          <div class="hero__product" id="heroProduct">
+            <div class="hero__product-glow"></div>
+            <img src="Ear3-black.webp" alt="" width="600" height="600" fetchpriority="high" />
+            <div class="hero__product-shine"></div>
+          </div>
+
+          <img class="hero__float hero__float--a" src="headphone-a-yellow-3_4-view-thumbnail.webp" alt="" width="600" height="600" />
+          <img class="hero__float hero__float--b" src="0000s_0069_CMF-Buds-Pro-2-case-orange.webp" alt="" width="600" height="600" />
+
+          <div class="chip chip--a">
+            <span class="chip__value">45 dB</span>
+            <span class="chip__label">Adaptive ANC</span>
+          </div>
+          <div class="chip chip--b">
+            <span class="chip__value">40 h</span>
+            <span class="chip__label">Total playback</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero__foot">
+        <a class="scroll-cue" href="#marquee" aria-label="Scroll to explore">
+          <span class="scroll-cue__line"><i></i></span>
+          <span class="mono">Scroll</span>
+        </a>
+        <div class="hero__foot-right mono">EST. 2020 — LONDON</div>
+      </div>
+    </section>
+
+    <!-- ================= MARQUEE ================= -->
+    <div class="marquee" id="marquee" aria-hidden="true">
+      <div class="marquee__track" id="marqueeTrack">
+        <span>Zero distraction</span><i></i>
+        <span>Pure sound</span><i></i>
+        <span>Nothing but everything</span><i></i>
+        <span>Designed in London</span><i></i>
+        <span>Transparent by nature</span><i></i>
+        <span>Zero distraction</span><i></i>
+        <span>Pure sound</span><i></i>
+        <span>Nothing but everything</span><i></i>
+        <span>Designed in London</span><i></i>
+        <span>Transparent by nature</span><i></i>
+      </div>
+    </div>
+
+    <!-- ================= SHOWCASE (sticky 3D) ================= -->
+    <section class="showcase" id="tech" aria-label="Nothing Ear (3) technology">
+      <div class="showcase__pin">
+        <div class="showcase__stage-wrap">
+          <div class="stage" id="stage">
+            <div class="stage__halo"></div>
+            <div class="stage__disc"></div>
+            <div class="stage__waves" aria-hidden="true"><i></i><i></i><i></i></div>
+
+            <svg class="ring-text ring-text--stage" viewBox="0 0 400 400" aria-hidden="true">
+              <defs>
+                <path id="stageRingPath" d="M200,200 m-168,0 a168,168 0 1,1 336,0 a168,168 0 1,1 -336,0" />
+              </defs>
+              <text>
+                <textPath href="#stageRingPath" startOffset="0%">NOTHING EAR (3) · NOTHING EAR (3) · NOTHING EAR (3) ·</textPath>
+              </text>
+            </svg>
+
+            <div class="stage__product" id="stageProduct">
+              <img id="stageImg" src="Ear3-black.webp" alt="Nothing Ear (3) in black, viewed from above in its charging case" width="600" height="600" loading="lazy" />
+              <div class="stage__glare"></div>
+            </div>
+
+            <div class="stage__shadow"></div>
+
+            <div class="stage__spec" id="stageSpec" aria-hidden="true">
+              <span class="stage__spec-value">45 dB</span>
+              <span class="stage__spec-label">Noise cancelled</span>
+            </div>
+          </div>
+
+          <div class="stage__bar">
+            <div class="stage__index mono"><span id="stageIndex">01</span> <em>/ 03</em></div>
+            <div class="stage__colors" id="stageColors" role="group" aria-label="Ear (3) colour"></div>
+          </div>
+        </div>
+
+        <div class="showcase__panels">
+          <article class="panel is-active" data-panel="0">
+            <span class="panel__kicker mono">01 — Silence</span>
+            <h2 class="panel__title">Noise, <span class="accent">cancelled</span>.</h2>
+            <p class="panel__copy">
+              Hybrid ANC samples your surroundings 48,000 times every second and adapts
+              continuously. Tune it from “aware of everything” to “aware of nothing”.
+            </p>
+            <div class="panel__stat"><b>45</b><span>dB of adaptive<br />noise cancellation</span></div>
+            <ul class="panel__list">
+              <li>Smart ANC with real-time adaptation</li>
+              <li>Transparency mode, one tap away</li>
+              <li>Wind-noise resistant dual mics</li>
+            </ul>
+          </article>
+
+          <article class="panel" data-panel="1">
+            <span class="panel__kicker mono">02 — Detail</span>
+            <h2 class="panel__title">Every layer, <span class="accent">audible</span>.</h2>
+            <p class="panel__copy">
+              A custom 12&nbsp;mm ceramic diaphragm moves with surgical control — sub-bass
+              you feel, mids that stay honest, and air all the way to 40&nbsp;kHz.
+            </p>
+            <div class="panel__stat"><b>12</b><span>mm ceramic<br />driver</span></div>
+            <ul class="panel__list">
+              <li>LDAC — 24-bit / 990 kbps</li>
+              <li>Ultra Bass with dual EQ</li>
+              <li>Certified Hi-Res Audio Wireless</li>
+            </ul>
+          </article>
+
+          <article class="panel" data-panel="2">
+            <span class="panel__kicker mono">03 — Endurance</span>
+            <h2 class="panel__title">Outlasts the <span class="accent">day</span>.</h2>
+            <p class="panel__copy">
+              Six hours in the buds, forty with the case. Ten minutes of charge gives you
+              ten more hours of listening — so the music stops when you decide, not the battery.
+            </p>
+            <div class="panel__stat"><b>40</b><span>hours of total<br />playback</span></div>
+            <ul class="panel__list">
+              <li>USB-C and Qi wireless charging</li>
+              <li>Fast charge: 10 min = 10 h</li>
+              <li>Battery health monitoring</li>
+            </ul>
+          </article>
+
+          <div class="panel__progress" aria-hidden="true"><i id="panelProgress"></i></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= LINEUP ================= -->
+    <section class="lineup" id="lineup">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow" data-reveal><span class="pulse-dot" aria-hidden="true"></span> The collection</p>
+          <h2 class="section-title" data-reveal style="--d:.08s">Pick your <span class="outline">nothing</span>.</h2>
+        </div>
+        <p class="section-lede" data-reveal style="--d:.16s">
+          Eleven ways to hear less of the world and more of everything else.
+          Filter by form, then hover to feel the depth.
+        </p>
+      </div>
+
+      <div class="filters" role="group" aria-label="Filter products" data-reveal>
+        <button class="filter is-active" type="button" data-filter="all" aria-pressed="true">All <span class="mono">11</span></button>
+        <button class="filter" type="button" data-filter="earbuds" aria-pressed="false">Earbuds <span class="mono">08</span></button>
+        <button class="filter" type="button" data-filter="headphones" aria-pressed="false">Headphones <span class="mono">03</span></button>
+        <button class="filter" type="button" data-filter="cmf" aria-pressed="false">CMF <span class="mono">05</span></button>
+      </div>
+
+      <div class="product-grid" id="productGrid"></div>
+      <p class="sr-only" id="gridStatus" role="status" aria-live="polite"></p>
+      <noscript><p class="noscript">Enable JavaScript to explore the interactive collection.</p></noscript>
+    </section>
+
+    <!-- ================= EXPLORER ================= -->
+    <section class="explorer" id="explore">
+      <div class="explorer__stage-wrap" data-reveal>
+        <div class="explorer__disc" aria-hidden="true"></div>
+        <svg class="ring-text ring-text--explorer" viewBox="0 0 400 400" aria-hidden="true">
+          <defs><path id="exRingPath" d="M200,200 m-178,0 a178,178 0 1,1 356,0 a178,178 0 1,1 -356,0" /></defs>
+          <text><textPath href="#exRingPath" startOffset="0%">DRAG TO ROTATE · 360° VIEW · DRAG TO ROTATE ·</textPath></text>
+        </svg>
+
+        <div class="explorer__product" id="explorerProduct" role="img" aria-label="Selected product, drag to rotate">
+          <img id="explorerImg" src="Ear3-black.webp" alt="" width="600" height="600" loading="lazy" />
+          <div class="explorer__glare" aria-hidden="true"></div>
+        </div>
+
+        <div class="explorer__hint mono">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 12a8 8 0 1 0 8-8"/><path d="M4 4v4h4"/></svg>
+          Drag to rotate
+        </div>
+      </div>
+
+      <div class="explorer__panel" data-reveal style="--d:.1s">
+        <p class="eyebrow"><span class="pulse-dot" aria-hidden="true"></span> Configurator</p>
+        <h2 class="section-title section-title--sm">Find your <span class="accent">silence</span>.</h2>
+
+        <div class="picker" id="picker" role="group" aria-label="Choose a product"></div>
+
+        <div class="explorer__info" aria-live="polite">
+          <div class="explorer__heading">
+            <div>
+              <h3 id="exName">Nothing Ear (3)</h3>
+              <p id="exTag">Flagship sound. Zero noise.</p>
+            </div>
+            <span class="price price--lg" id="exPrice">$179</span>
+          </div>
+
+          <dl class="spec-grid" id="exSpecs"></dl>
+
+          <div class="explorer__colors">
+            <span class="explorer__colors-label">Colour</span>
+            <div class="swatches swatches--lg" id="exColors" role="group" aria-label="Choose a colour"></div>
+            <span class="explorer__colors-name mono" id="exColorName">Black</span>
+          </div>
+
+          <div class="explorer__buy">
+            <button class="btn btn--primary btn--wide" id="exAdd" type="button">
+              Add to bag
+              <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+            </button>
+            <p class="explorer__ship mono">Free shipping · 30-day returns</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= FEATURES ================= -->
+    <section class="features" id="features">
+      <div class="section-head section-head--center">
+        <p class="eyebrow" data-reveal><span class="pulse-dot" aria-hidden="true"></span> Engineering</p>
+        <h2 class="section-title" data-reveal style="--d:.08s">Built to <span class="outline">disappear</span>.</h2>
+      </div>
+
+      <div class="bento">
+        <article class="bento__card bento__card--wide" data-reveal>
+          <div class="bento__top">
+            <span class="bento__tag mono">ANC</span>
+            <span class="bento__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><path d="M4 14a2 2 0 0 1 2 2v2a2 2 0 0 1-4 0v-2a2 2 0 0 1 2-2Z"/><path d="M20 14a2 2 0 0 0-2 2v2a2 2 0 0 0 4 0v-2a2 2 0 0 0-2-2Z"/></svg>
+            </span>
+          </div>
+          <h3>Adaptive noise cancellation</h3>
+          <p>Dual mics read the room 48,000 times a second and sculpt a pocket of quiet around you.</p>
+          <div class="eq" aria-hidden="true">
+            <i style="--h:38%"></i><i style="--h:72%"></i><i style="--h:55%"></i><i style="--h:92%"></i><i style="--h:64%"></i><i style="--h:44%"></i><i style="--h:80%"></i><i style="--h:58%"></i><i style="--h:36%"></i><i style="--h:70%"></i><i style="--h:50%"></i><i style="--h:88%"></i><i style="--h:42%"></i><i style="--h:62%"></i><i style="--h:76%"></i><i style="--h:34%"></i>
+          </div>
+          <span class="bento__stat mono">45 dB</span>
+          <span class="bento__watermark" aria-hidden="true">45</span>
+        </article>
+
+        <article class="bento__card" data-reveal style="--d:.08s">
+          <div class="bento__top">
+            <span class="bento__tag mono">AUDIO</span>
+            <span class="bento__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 12h2l2-6 3 12 3-9 2 6 2-3h4"/></svg>
+            </span>
+          </div>
+          <h3>Hi-Res LDAC</h3>
+          <p>24-bit / 990 kbps wireless — three times the data of standard Bluetooth.</p>
+          <div class="wave" aria-hidden="true">
+            <svg viewBox="0 0 200 60" preserveAspectRatio="none">
+              <path d="M0 30 Q 10 5 20 30 T 40 30 T 60 30 T 80 30 T 100 30 T 120 30 T 140 30 T 160 30 T 180 30 T 200 30" />
+            </svg>
+          </div>
+          <span class="bento__stat mono">990 kbps</span>
+        </article>
+
+        <article class="bento__card" data-reveal style="--d:.16s">
+          <div class="bento__top">
+            <span class="bento__tag mono">POWER</span>
+            <span class="bento__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="16" height="10" rx="2"/><path d="M22 10v4"/><path d="M5 10h6v4H5z" fill="currentColor" stroke="none"/></svg>
+            </span>
+          </div>
+          <h3>40-hour battery</h3>
+          <p>Six in the buds, thirty-four in the case. Ten minutes of charge, ten hours back.</p>
+          <div class="charge" aria-hidden="true"><span></span></div>
+          <span class="bento__stat mono">10 min → 10 h</span>
+        </article>
+
+        <article class="bento__card bento__card--wide" data-reveal style="--d:.24s">
+          <div class="bento__top">
+            <span class="bento__tag mono">EVERYDAY</span>
+            <span class="bento__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6l-8-3Z"/><path d="m9 12 2 2 4-4"/></svg>
+            </span>
+          </div>
+          <h3>Built for real life</h3>
+          <p>IP54 sweat and dust resistance, dual-device connection and a case that finds itself.</p>
+          <div class="pills" aria-hidden="true">
+            <span>IP54</span><span>Dual connection</span><span>Find My</span><span>USB-C + Qi</span>
+          </div>
+          <span class="bento__watermark" aria-hidden="true">54</span>
+        </article>
+      </div>
+    </section>
+
+    <!-- ================= STATS ================= -->
+    <section class="stats" aria-label="Nothing in numbers">
+      <div class="stat" data-reveal>
+        <span class="stat__value"><span data-count="11">0</span></span>
+        <span class="stat__label">Products in the lineup</span>
+      </div>
+      <div class="stat" data-reveal style="--d:.08s">
+        <span class="stat__value"><span data-count="45">0</span><em>dB</em></span>
+        <span class="stat__label">Peak noise cancelled</span>
+      </div>
+      <div class="stat" data-reveal style="--d:.16s">
+        <span class="stat__value"><span data-count="40">0</span><em>h</em></span>
+        <span class="stat__label">Battery, case included</span>
+      </div>
+      <div class="stat" data-reveal style="--d:.24s">
+        <span class="stat__value"><span data-count="360">0</span><em>°</em></span>
+        <span class="stat__label">Of explorable product</span>
+      </div>
+    </section>
+
+    <!-- ================= CTA ================= -->
+    <section class="join" id="join">
+      <div class="join__glow" aria-hidden="true"></div>
+      <div class="join__inner">
+        <p class="eyebrow" data-reveal><span class="pulse-dot" aria-hidden="true"></span> The drop list</p>
+        <h2 class="join__title" data-reveal style="--d:.08s">Hear it <span class="outline">first</span>.</h2>
+        <p class="join__copy" data-reveal style="--d:.16s">
+          Product drops, firmware notes and very occasional noise. No spam, no filler — we promise.
+        </p>
+        <form class="join__form" id="joinForm" novalidate data-reveal style="--d:.24s">
+          <label class="sr-only" for="email">Email address</label>
+          <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required />
+          <button class="btn btn--primary" type="submit">Notify me</button>
+        </form>
+        <p class="join__note mono" id="joinNote">No spam. Unsubscribe in one click.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="footer" id="footer">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <a class="brand" href="#top" aria-label="Nothing, back to top">
+          <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
+          <span class="brand__text">NOTHING<span class="brand__reg">®</span></span>
+        </a>
+        <p>Sound, without limits.<br />An unofficial interactive concept showcase built around Nothing and CMF product imagery.</p>
+      </div>
+
+      <nav class="footer__col" aria-label="Shop">
+        <h3>Shop</h3>
+        <a href="#lineup">All products</a>
+        <a href="#lineup">Earbuds</a>
+        <a href="#lineup">Headphones</a>
+        <a href="#explore">Configure</a>
+      </nav>
+
+      <nav class="footer__col" aria-label="Explore">
+        <h3>Explore</h3>
+        <a href="#tech">Technology</a>
+        <a href="#features">Engineering</a>
+        <a href="#join">The drop list</a>
+        <a href="#top">Back to top</a>
+      </nav>
+
+      <nav class="footer__col" aria-label="Elsewhere">
+        <h3>Elsewhere</h3>
+        <a href="https://nothing.tech" target="_blank" rel="noopener noreferrer">nothing.tech ↗</a>
+        <a href="https://cmf.tech" target="_blank" rel="noopener noreferrer">cmf.tech ↗</a>
+        <a href="https://www.instagram.com/nothing" target="_blank" rel="noopener noreferrer">Instagram ↗</a>
+        <a href="https://www.youtube.com/@Nothing" target="_blank" rel="noopener noreferrer">YouTube ↗</a>
+      </nav>
+    </div>
+
+    <div class="footer__bottom">
+      <span class="mono">© 2026 — Concept showcase. Imagery © Nothing Technology Ltd.</span>
+      <button class="motion-toggle" id="motionToggle" type="button" aria-pressed="true">
+        <span class="motion-toggle__dot" aria-hidden="true"></span>
+        Motion <span id="motionState">On</span>
+      </button>
+      <span class="mono">Designed with intent · Built with HTML, CSS &amp; vanilla JS</span>
+    </div>
+  </footer>
+
+  <!-- ================= BAG ================= -->
+  <div class="overlay" id="overlay" hidden></div>
+  <aside class="bag" id="bagDrawer" role="dialog" aria-modal="true" aria-labelledby="bagTitle" aria-hidden="true">
+    <header class="bag__head">
+      <div>
+        <h2 id="bagTitle">Your bag</h2>
+        <p class="mono" id="bagSummary">0 items</p>
+      </div>
+      <button class="icon-btn" id="bagClose" type="button" aria-label="Close bag">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+    </header>
+
+    <div class="bag__items" id="bagItems"></div>
+
+    <footer class="bag__foot">
+      <div class="bag__row"><span>Subtotal</span><span class="price" id="bagTotal">$0</span></div>
+      <p class="bag__note mono">Taxes and shipping calculated at checkout.</p>
+      <button class="btn btn--primary btn--wide" id="checkoutBtn" type="button">Checkout</button>
+      <button class="bag__clear" id="bagClear" type="button">Clear bag</button>
+    </footer>
+  </aside>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <button class="motion-pill" id="motionPill" type="button">
+    <span class="motion-pill__dot" aria-hidden="true"></span>
+    <span>Animations are off</span>
+    <strong>Enable</strong>
+  </button>
+
+  <script src="js/app.js?v=3" defer></script>
+</body>
+</html>
