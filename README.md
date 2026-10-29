@@ -1,100 +1,138 @@
-# NOTHING — Sound Without Limits
+# Nothing Clone — 3D Animation Practice
 
-An interactive, scroll-driven 3D product showcase for Nothing and CMF audio, built with
-plain HTML, CSS and JavaScript. No build step, no dependencies.
+A scroll-driven, interactive 3D product showcase inspired by [Nothing](https://nothing.tech) and its CMF audio line. Built with plain **HTML, CSS and JavaScript** — no frameworks, no build step, no dependencies.
 
-The project started as a folder of transparent product imagery. This adds the full
-front-end experience around it: a 3D hero, a pinned scroll showcase, a filterable
-collection, a drag-to-rotate configurator with a working bag, and a responsive layout.
-
-> Unofficial concept. Product imagery and brand names belong to Nothing Technology Ltd.
+> **This is a practice project.** I made it to learn and experiment with 3D and animation techniques on the web. It is not affiliated with, endorsed by, or connected to Nothing Technology Ltd. It is not a store and nothing can actually be bought.
 
 ---
 
-## Run it
+## Why I built this
 
-**Option A — just open it**
+I wanted hands-on practice with:
 
-```
-index.html
-```
+- CSS 3D transforms (`perspective`, `preserve-3d`, `translateZ`, `rotateX/Y`)
+- Scroll-linked animation and pinned ("sticky") scroll stages
+- Pointer-driven tilt and parallax effects
+- Drag-to-rotate interactions
+- Smooth animation loops with `requestAnimationFrame`
+- Building a full, responsive, accessible page without any libraries
 
-Everything works from the file system. The only network request is Google Fonts
-(Space Grotesk, Inter, Doto); the site falls back to system fonts offline.
+Nothing's site is a great reference for this style of product storytelling, so I used its look and product lineup as the subject.
 
-**Option B — local server** (recommended for a clean origin, e.g. for the bag storage)
+---
+
+## Preview of what's inside
+
+| Section | What it shows |
+| --- | --- |
+| **Hero** | Staggered 3D headline reveal, a product that follows the pointer, orbiting rings, floating secondary products and spec chips |
+| **Marquee** | Infinite brand ticker that pauses on hover |
+| **Technology** | A pinned scroll stage — the Ear (3) rotates and scales as you scroll while feature panels crossfade; colourways switch live |
+| **Collection** | 11 products, filterable by Earbuds / Headphones / CMF, with cards that tilt in 3D toward the cursor and per-card colour swatches |
+| **Configurator** | Pick a product, drag it to rotate 360°, change colour, compare specs, add to bag (arrow keys also rotate) |
+| **Engineering bento** | Animated ANC equaliser, LDAC waveform and charge bar cards |
+| **Numbers** | Count-up stats that animate on first view |
+| **Drop list** | Email sign-up form with inline validation |
+| **Bag drawer** | Slide-over cart with quantity controls, removal, subtotal and `localStorage` persistence |
+
+---
+
+## Tech stack
+
+- **HTML5** — semantic markup and landmarks
+- **CSS3** — custom properties, grid/flexbox, 3D transforms, keyframe animation (~2,900 lines)
+- **Vanilla JavaScript (ES6+)** — product data, interactions, rendering (~1,250 lines)
+- **Google Fonts** — Space Grotesk, Inter and Doto (falls back to system fonts offline)
+
+---
+
+## Getting started
+
+**Option 1 — open the file**
+
+Double-click `index.html`. Everything runs straight from the file system.
+
+**Option 2 — local server**
 
 ```bash
+# with Node
 npx serve .
-# or
+
+# or with Python
 python -m http.server 4173
 ```
 
-Then visit `http://localhost:4173`.
+Then open `http://localhost:4173` in your browser.
 
 ---
 
-## What's inside
+## Project structure
 
 ```
-index.html            Markup, sections and copy
-css/styles.css        Design tokens, layout, 3D and motion
-js/app.js             Product data and all interactions
-*.webp                35 transparent product renders (originals)
+3d animated/
+├── index.html        Markup, sections and copy
+├── css/
+│   └── styles.css    Design tokens, layout, 3D effects and motion
+├── js/
+│   └── app.js        Product data and all interactions
+├── *.webp            Product images
+└── README.md
 ```
-
-### Sections
-
-1. **Hero** — staggered 3D headline reveal, pointer-parallax product, orbiting rings,
-   floating secondary products and spec chips.
-2. **Marquee** — infinite brand ticker (pauses on hover).
-3. **Technology** — pinned 340vh scroll stage. The Ear (3) rotates and scales as you
-   scroll while three feature panels crossfade; colourways switch the product live.
-4. **Collection** — 11 products, filterable by Earbuds / Headphones / CMF. Cards tilt in
-   3D toward the cursor, have per-card colour swatches and add-to-bag.
-5. **Configurator** — pick any product, drag the render to rotate it 360°, change colour,
-   compare specs, add to bag. Rotatable with arrow keys too.
-6. **Engineering bento** — animated ANC equaliser, LDAC waveform, charge bar and badges.
-7. **Numbers** — count-up stats on first view.
-8. **Drop list** — validated email capture with inline feedback.
-9. **Bag drawer** — quantity controls, removal, subtotal, persistence via `localStorage`.
-
-### Interactions
-
-| Action | Result |
-| --- | --- |
-| Move pointer over hero / cards | 3D tilt with parallax product |
-| Scroll through Technology | Product rotates −32° → +32°, panels and specs change |
-| Click a colour dot | Crossfades to that colourway |
-| Drag the configurator product | Free 360° rotation (arrow keys also work) |
-| Click **Bag** | Slide-over drawer with focus trap, `Esc` to close |
-| Filter nav links | Deep-links the collection to the right category |
 
 ---
 
-## Implementation notes
+## How the 3D works
 
-- **3D** is CSS: `perspective`, `preserve-3d`, `translateZ` for depth, with smoothed
-  `rotateX/Y` values driven by pointer or scroll position in `requestAnimationFrame`.
-- **Scroll work** is rAF-throttled and only runs while the showcase is near the viewport.
-- **Idle motion**: the hero, showcase and configurator keep a slow drift when the page is
-  still, so the 3D reads even before you scroll. The showcase also cycles colourways every
-  5.5s and pauses while you hover it.
-- **Motion safety**: animation is on by default and turns off only via the footer
-  **Motion** toggle or the "Animations are off" pill. In that mode tilt, float, marquee and
-  3D transforms stop, and all content stays visible.
-- **Accessibility**: skip link, landmarks, visible focus rings, `aria-pressed` swatches and
-  filters, `aria-hidden` on inactive panels, dialog semantics + focus trap for the bag,
-  labelled controls, and status live regions for filtering, toast and newsletter.
-- **Performance**: transparent WebP art, lazy-loaded grid images, a preload for the hero,
-  and idle preloading of the configurator images.
-- **No-JS fallback**: loader is hidden, reveal states are neutralised and a message is
-  shown where the collection would render.
+There is no WebGL or 3D library here — the depth is built with CSS and a little JavaScript:
+
+- **Depth:** `perspective` on a parent plus `transform-style: preserve-3d` and `translateZ` on children.
+- **Pointer tilt:** `pointermove` events feed target `rotateX/rotateY` values, which are smoothed each frame in `requestAnimationFrame` so movement feels fluid rather than snappy.
+- **Scroll-driven rotation:** the Technology section is a tall container with a sticky stage. Scroll progress through that container maps to the product's rotation and scale, and decides which feature panel is visible.
+- **Drag to rotate:** pointer drag in the configurator updates the rotation angle directly, with keyboard arrow support as an alternative.
+- **Idle motion:** a slow drift keeps the scene feeling 3D even when you aren't interacting.
+
+---
 
 ## Customising
 
-- Products, prices, specs and colourways live in the `PRODUCTS` array at the top of
-  `js/app.js`. Each colour maps to an image filename in the project root.
-- Colours, spacing, type and easing are CSS custom properties in `:root` in
-  `css/styles.css`. Change `--accent` to re-skin the whole site.
-- The bag storage key is `nothing.bag.v1`; bump it if you change the item shape.
+- **Products, prices, specs and colours** live in the `PRODUCTS` array near the top of `js/app.js`. Each colour points to an image filename in the project root.
+- **Colours, spacing, type and easing** are CSS custom properties in `:root` in `css/styles.css`. Changing `--accent` re-skins the whole site.
+- **Bag storage** uses the key `nothing.bag.v1`. Bump the version if you change the shape of a bag item.
+
+---
+
+## Accessibility and performance
+
+- Skip link, landmarks, visible focus rings and labelled controls
+- `aria-pressed` on swatches and filters, dialog semantics and focus trap on the bag, `Esc` to close
+- Live regions for filtering, toasts and the newsletter form
+- A **Motion** toggle in the footer turns off tilt, float, marquee and 3D transforms while keeping all content visible
+- Transparent WebP images, lazy-loaded grid images, a hero preload, and idle preloading of configurator images
+- A no-JS fallback message where the collection would render
+
+---
+
+## Image credits and disclaimer
+
+- All product images were downloaded from the official Nothing website and are used **only for personal learning and practice**.
+- Product names, logos, designs and imagery belong to **Nothing Technology Ltd.** and their respective owners.
+- This project is non-commercial and is not intended for redistribution or public deployment as a real store. If you fork it, please replace the images with your own before publishing anywhere.
+- If a rights holder would like anything removed, I'm happy to take it down.
+
+---
+
+## What I learned / next steps
+
+Ideas I'd like to explore next:
+
+- [ ] Rebuild the hero with **Three.js** or WebGL using real 3D models
+- [ ] Add scroll smoothing (e.g. a lightweight lerp-based scroller)
+- [ ] Try GSAP ScrollTrigger and compare it with the hand-written scroll logic
+- [ ] Add a light theme
+- [ ] Convert product data into a JSON file loaded at runtime
+
+---
+
+## Author
+
+Made by me as a front-end practice exercise. Feel free to explore the code and use the techniques in your own projects.
